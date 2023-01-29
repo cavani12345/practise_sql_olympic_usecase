@@ -69,3 +69,30 @@ GROUP BY a.name
 HAVING SUM(s.gold)>=3
 -- Sort to show the most gold medals at the top
 ORDER BY SUM(s.gold) DESC;
+
+--  write query the featch the distinct events by country and season, season could be either summer or winter 
+-- combine data from summer_games and winter_games
+
+-- Query season, country, and events for all summer events
+-- Query season, country, and events for all summer events
+SELECT 
+	'summer' AS season, 
+    country, 
+    COUNT(DISTINCT event) AS events
+FROM summer_games AS s
+JOIN countries  AS c
+ON s.country_id = c.id
+GROUP BY season,country
+-- Combine the queries
+UNION ALL
+-- Query season, country, and events for all winter events
+SELECT 
+	'winter' AS season, 
+    country, 
+    COUNT(DISTINCT event) AS events
+FROM winter_games AS w
+JOIN countries AS c
+ON w.country_id=c.id
+GROUP BY season,country
+-- Sort the results to show most events at the top
+ORDER BY events DESC;
