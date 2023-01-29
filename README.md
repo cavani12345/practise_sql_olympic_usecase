@@ -7,7 +7,7 @@ The felowing picture show ERD model of olympic database that we will be working 
 ![alt text](https://github.com/cavani12345/practise_sql_olympic_usecase/blob/master/olympic_ERD_model.png?raw=true)
 
 
-open olypic.sql file on root of repository to dive into query for creating repors as per our use case
+open olympic.sql file on root of repository to dive into query for creating reports as per our use case
 
 
 
