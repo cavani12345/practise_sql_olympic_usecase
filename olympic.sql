@@ -75,24 +75,27 @@ ORDER BY SUM(s.gold) DESC;
 
 -- Query season, country, and events for all summer events
 -- Query season, country, and events for all summer events
+-- Add outer layer to pull season, country and unique events
 SELECT 
-	'summer' AS season, 
-    country, 
-    COUNT(DISTINCT event) AS events
-FROM summer_games AS s
-JOIN countries  AS c
-ON s.country_id = c.id
-GROUP BY season,country
--- Combine the queries
-UNION ALL
--- Query season, country, and events for all winter events
-SELECT 
-	'winter' AS season, 
-    country, 
-    COUNT(DISTINCT event) AS events
-FROM winter_games AS w
+	subquery.season, 
+    c.country, 
+    COUNT(DISTINCT subquery.event) AS events
+FROM
+    -- Pull season, country_id, and event for both seasons
+    (SELECT 
+     	'summer' AS season, 
+     	event, 
+     	country_id
+    FROM summer_games
+    UNION ALL 
+    SELECT 
+     	'winter' AS season, 
+     	event, 
+     	country_id
+    FROM winter_games) AS subquery
 JOIN countries AS c
-ON w.country_id=c.id
-GROUP BY season,country
--- Sort the results to show most events at the top
+ON c.id = subquery.country_id
+-- Group by any unaggregated fields
+GROUP BY subquery.season,c.country
+-- Order to show most events at the top
 ORDER BY events DESC;
