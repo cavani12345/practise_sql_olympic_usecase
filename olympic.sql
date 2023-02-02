@@ -34,6 +34,15 @@ JOIN countries ct
 ON ct.id = sg.country_id
 GROUP BY ct.region;
 
+-- -- Show max gdp per Across all years by  country
+SELECT 
+	country_id,
+    year,
+    gdp,
+    -- Show max gdp per country and alias accordingly
+	MAX(gdp) OVER (PARTITION BY country_id) AS country_max_gdp
+FROM country_stats;
+
 --- Your task is to create a query that shows the unique number of events held for each sport
 --- use both summer_games and winter_games to create centralized report
 
